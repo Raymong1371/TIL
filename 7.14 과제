@@ -1,0 +1,39 @@
+//(A+: 4.3, A0: 4.0, A-: 3.7
+B+: 3.3, B0: 3.0, B-: 2.7
+C+: 2.3, C0: 2.0, C-: 1.7
+D+: 1.3, D0: 1.0, D-: 0.7
+F: 0.0
+
+1. 학점을 숫자로 전환하는 함수  // 여기까지 했음
+2. 학점 list의 평균 점수 계산
+3. Student class 설계
+4. 10명의 학생의 점수를 추가하고 등수 계산)
+
+
+fun main() {
+    val `A+`: String = "4.3"
+    val A0 : String = "4.0"
+    val `A-`: String = "3.7"
+    val `B+`: String = "3.3"
+    val B0 : String = "3.0"
+    val `B-`: String = "2.7"
+    val `C+` : String = "2.3"
+    val C0 : String = "2.0"
+	val `C-`: String = "1.7"
+    val `D+` : String = "1.3"
+    val D0 : String = "1.0"
+    val `D-`: String = "0.7"
+    val F : String = "0.0"
+    val num : Int = `A+`.toDouble().toInt()
+    
+    val scores = listOf(4.3, 4.0)
+    val average = scores.average()
+    	println("평균점수는 $average 입니다.")
+    println(A0)
+    println(F)
+    
+    val student = Student('')
+    println(student.name)
+}
+
+	class Student(val name : String, var age : Int, var scoreaverage : Int)
