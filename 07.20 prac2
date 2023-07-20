@@ -1,0 +1,19 @@
+fun main() {
+    println(repeatAlphabet("hi", 2)) // 출력값이 hhii 되게끔
+    println(repeatAlphabet("easy", 3))
+}
+
+fun repeatAlphabet(input:String, n:Int) : String{
+    var answer: String = ""
+    
+    for(a in input){             // a라는 
+        for(i in 1..n)
+        answer = answer + a
+        
+    }
+    
+    
+    return answer
+    
+    // 반복해서 순서대로 반환하는 함수?
+}
