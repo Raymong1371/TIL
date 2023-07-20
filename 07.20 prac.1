@@ -1,0 +1,17 @@
+fun main() {
+   var answer = repeatWord("Bye",5)
+   println(answer)
+}
+
+fun repeatWord(input:String, n:Int):String{  
+    
+    val n = 5 // n의 변수값 5 입력
+    
+    var answer : String="" // 변하는값 answer 라는 변수를 문자열로 받음
+    
+     repeat(n){
+         answer = answer + input  // n에 입력한 숫자 5만큼
+         						//	input값을 answer에 반복해서 더하는 함수 
+   }   
+       return answer  
+}
