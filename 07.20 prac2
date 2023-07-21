@@ -1,19 +1,21 @@
 fun main() {
-    println(repeatAlphabet("hi", 2)) // 출력값이 hhii 되게끔
-    println(repeatAlphabet("easy", 3))
+    println(repeatAlphabet("hi", 3)) 
+    
 }
 
 fun repeatAlphabet(input:String, n:Int) : String{
     var answer: String = ""
     
-    for(a in input){             // a라는 
+    for(a in input){      //a라는 변수에 input값은 "h","i"  //i = 1일때 "h" 로 밑에 for문
+        				//루프를 돔     
         for(i in 1..n)
-        answer = answer + a
+        answer = answer + a  //처음에 answer 는 0 개념 쉽게말해 0+h 다음 i=2일땐 h에서 + h
+        					// n = 3 이면 hh+h 
         
     }
     
     
     return answer
     
-    // 반복해서 순서대로 반환하는 함수?
+    
 }
