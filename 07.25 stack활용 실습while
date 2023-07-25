@@ -1,0 +1,40 @@
+import java.util.*
+
+fun main() {
+    val stack = Stack<String>()
+    
+    stack.push("g")
+    stack.push("n")
+    stack.push("i")
+    stack.push("t")
+    stack.push("h")
+    stack.push("g")
+    stack.push("i")
+    stack.push("f")
+    
+    
+    var result = ""    // 변화-result 변수를 문자값으로 초기화시켜주고          
+    while (!stack.isEmpty()) {           
+        result = result + stack.pop()  // while문에서 
+    }
+    	println("$result")
+    }
+
+     // println()으로 출력을 했을때 ih가 나올수 있게 하려면 for문 1부터 10까지 
+    // 덧셈처럼 합쳐서 출력을 해야함 
+    // 단서는?
+    // for문 사용을 통해서 입력한 stack 값들을 출력해보자 println()을 써라
+    // - for문을 쓰라는 얘기가 아니었음.. 
+
+//     var sum = Stack<String>()
+//     	stack.push("h")
+//         stack.push("i")
+    
+//     for(i in 1..2){
+        
+//     }
+//     println()       // stack에 대한건 다 했다 아닌걸 해야함
+    					// for문 에 값을 다 더 했나? ㄴ
+    					// for문 i=1 일때 stack "i" / i=2 stack "h"
+    					// println(값출력)
+    					
