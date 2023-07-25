@@ -1,0 +1,21 @@
+import java.util.*
+
+fun main() {
+    val stack = Stack<String>()
+
+    stack.push("g")
+    stack.push("n")
+    stack.push("i")
+    stack.push("t")
+    stack.push("h")
+    stack.push("g")
+    stack.push("i")
+    stack.push("f")
+
+    var result = ""      
+    for (i in 1..8) {           
+        result = result + stack.pop()   
+
+    }
+    println("$result")
+}
