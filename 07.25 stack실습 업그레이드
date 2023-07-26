@@ -1,0 +1,21 @@
+import java.util.*
+//스택쌓은 문자열을 거꾸로(후입선출) 출력하게 하는 함수
+fun main() {
+    val answer = reverseWord("h","e","l","l","o")
+    println(answer)
+}
+    
+
+fun reverseWord(vararg words:String):String {
+    val stack = Stack<String>()
+    
+    for(word in words) {
+        stack.push(word)
+    }
+
+    var result = ""    // 변화-result 변수를 문자값으로 초기화시켜주고          
+    while (!stack.isEmpty()) {           
+        result = result + stack.pop()  
+    }
+	 return result
+}
