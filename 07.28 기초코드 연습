@@ -1,0 +1,149 @@
+// <세개의 Int a,b,c 가 주어졌을 때 두번째로 큰 수를 Int로 반환하는 함수>
+
+fun main() {   
+    val a = 543547733  // 두번째로 큰 수가 출력이 되야함 // 조건문 + 함수 써서
+    val b = 543575675
+    val c = 543634642
+	if ((a<=b && a>=c) || (a>=b && a<=c)) {      //if 문 3개만듬 -> 오류 why? 3개 조건문 독립적으로 실행
+        println(a)								//(a<=b && a>=c) || (a>=b && a<=c) 두개 조건문을 함께 쓰는이유? 
+        																		//중간값인걸 확인하기위해 두조건 모두 포함 
+    }
+    
+    else if ((b<=a && b>=c) || (b>=a && b<=c)) {       //if 조건이 참이 아닐경우 else if 조건문 실행
+        println(b)
+    }
+        
+    else {                       // if , else if 모두 참이 아닐경우 else를 출력하면 되니까 따로 조건문을 안적어도 됌
+        println(c)
+    }
+     
+    }
+
+
+    
+
+//[리스트 + 반복문]
+//전달받은 리스트의 전체 합 계산 
+//반복문을 쓰라고 했으니까 리스트 입력된 숫자들을 차례로 불러와서 더하는 함수
+//ex) listOf(100,80,90) -> 90
+
+fun main() {      
+    
+    val list1 = listOf(435, 24, 42)  // 반복문 while 쓰고 조건을 listOf isEmpty 써볼까?
+    
+    var sum:Int = 0
+    for (i in list1) {          // for문 중괄호 항상 신경쓰기 중괄호안에 println() 포함이면 같이 루프됨
+        sum = sum + i
+    }
+        println(sum)
+    }
+
+
+
+
+// [리스트+반복문]
+// ex) listOf(100,80,90) -> 90
+// 반복문 사용하라고했으니 입력된 값을 다 더한뒤 나누는 과정이 필요한데..
+// 루프 i = 1 , 리스트 첫번째 수 더하고 1 나누기 / i = 2 , 리스트 두번째 수 더하고 2나누기 (오류)
+fun main() {
+    
+    val list1 = listOf( 100,80,90,75 )  // 리스트의 안에 갯수 = size
+    
+    var n = list1.size // (검색)이게 평균을 구할때 1,2,3 이런식으로 나눌수가 있게 해줌 , 각 값 1개 2개 3개
+    var sum:Int = 0
+    for (i in list1) {
+        // i = 리스트 첫번째 수, list에 있는 90을 불러오고 나누기 1 (.size 1) -> 오류
+        sum = sum + i    //평균 계산오류=> 평균을 구하는 계산식은 루프밖에서 실행되야함
+    }
+    	val average = sum / n     // 평균값에 대한 변수를 따로 선언을 해줘야함
+    println(average)
+}
+
+
+
+
+// [map] 
+// 국가별 수도를 관리하는 맵 구성
+// ex) "대한민국" -> "서울"   // value 값을 출력하도록
+
+fun main() {
+    val capital = mapOf(
+        "대한민국" to "서울",
+        "일본" to "도쿄",
+        "중국" to "베이징"
+    )
+    capital.forEach { (country, city)->  // forEach 함수안에서 소괄호안에 key 와 value 값 변수 설정 ,forEach함수는 람다식을 인자로 받음	을 
+        println("$country 의 수도는 $city 입니다.")   // key의 문자열과 함께 출력하려면 ? (챗봇 활용함)
+    }
+}
+
+
+
+// [map]
+// 소문자 알파벳의 '아스키코드'를 관리하는 맵 구성
+
+fun main() {
+    val code = mapOf(
+    	"a" to "97",
+        "b" to "98",
+        "c" to "99",
+        "d" to "100"
+    )
+    code.forEach { (word, asc) ->
+    	println("$word 의 아스키코드는 $asc 입니다.")
+    }
+    
+}
+
+
+
+//[enum class]
+//요일 enum class 구현
+
+enum class days {
+    SUNDAY,
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY
+    
+}
+
+
+
+[enum class + 조건문 + 함수]
+요일 enum class 구현하고 전달받은 요일의 내일을 구하는 함수
+
+
+enum class days() {
+    SUNDAY,     
+    MONDAY,		
+    TUESDAY,	
+    WEDNESDAY,  
+    THURSDAY,	
+    FRIDAY,		
+    SATURDAY; 
+
+    fun getNextDay(): days {    // 다음날 구하는 함수 선언 , enum class 값 할당받음
+        return when (this) {	// 챗봇 사용하여 코드작성, 공부 필요
+            SUNDAY -> MONDAY
+            MONDAY -> TUESDAY
+            TUESDAY -> WEDNESDAY
+            WEDNESDAY -> THURSDAY
+            THURSDAY -> FRIDAY
+            FRIDAY -> SATURDAY
+            SATURDAY -> SUNDAY
+        }
+    }
+}
+
+fun main() {              // enum class 에서 어떻게 전달 받지? , when 사용?
+    					// 어떤 요일을 받으면 이거 다음에는 뭘 출력하고 이런 조건문?
+    					
+    val today = days.MONDAY
+    val nextDay = today.getNextDay()
+    println("오늘은 $today 이고, 다음날은 $nextDay 입니다.")
+
+}
