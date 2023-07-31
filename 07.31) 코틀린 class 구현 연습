@@ -1,0 +1,46 @@
+private class Cafe (val name: String, val adress: String, var rent: Int, val menu: String) {
+
+    fun sayHello() {
+        println("저희 $name 카페에 오신것을 환영합니다!")
+    }
+
+}
+
+
+
+open class Coffee (val name: String, var price: Int, val ingredient: String){
+    var shots: Int = 0
+
+    fun getInfo() {
+        println("메뉴명: $name, 가격: $price 원, 주 재료: $ingredient") 
+    }
+
+
+    open fun addShot(){
+        shots++
+    }
+
+}
+
+class Americano : Coffee("아메리카노",3500,"에스프레소,물"){
+    override fun addShot() {
+        println("샷 추가 되었습니다.")
+    }
+}
+
+class Latte : Coffee("카페라떼",4500,"에스프레소,우유,물")
+
+
+
+fun main() {
+    val cafe = Cafe("매머드","",300000,"")
+    cafe.sayHello()
+
+
+    val americano = Americano()
+    americano.getInfo()
+    americano.addShot()
+    
+    val latte = Latte()
+    latte.getInfo()
+}
