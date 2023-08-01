@@ -1,0 +1,76 @@
+private class Cafe (val name: String, val adress: String, var rent: Int, val menu: String) {
+		
+    private val coffeeOrders = mutableListOf<Coffee>()
+    
+    fun sayHello() {
+        println("저희 $name 카페에 오신것을 환영합니다!")
+    }
+    
+    fun orderCoffee(coffee: Coffee) { //Coffee 클래스의 객체를 전달 , 그러면 왜 override씀?
+        coffeeOrders.add(coffee)
+        println("${coffee.name} 주문이 완료되었습니다.")
+    }
+    
+    fun calculateTotalPrice(): Int {
+        var totalPrice = 0 
+        for (coffee in coffeeOrders) {
+            totalPrice += coffee.price
+        }
+        return totalPrice
+    }
+
+}
+
+
+
+open class Coffee (val name: String, var price: Int, val ingredient: String){
+    protected var shots: Int = 0
+
+    fun getInfo() {
+        println("메뉴명: $name, 가격: $price 원, 주 재료: $ingredient") 
+    }
+
+
+    open fun addShot() {
+        shots++
+        price += 500 // 샷을 추가 할때마다 가격 500원 상승
+        println("샷 추가 되었습니다. 현재 샷 개수: $shots, 가격: $price 원")
+    }
+
+}
+
+class Americano : Coffee("아메리카노",3500,"에스프레소,물"){
+    override fun addShot() {
+        super.addShot()
+    }
+}
+
+class Latte : Coffee("카페라떼",4500,"에스프레소,우유,물"){
+    override fun addShot() {
+        super.addShot()
+    }
+}
+
+// 프로텍티드 어떻게 쓰지 ? 
+
+fun main() {
+    val cafe = Cafe("매머드","",300000,"")
+    cafe.sayHello()
+
+
+    val americano = Americano()
+    americano.getInfo()
+    americano.addShot()
+    americano.addShot()
+	cafe.orderCoffee(americano)
+
+    val latte = Latte()
+    latte.getInfo()
+    latte.addShot()
+    latte.addShot()
+    latte.addShot()
+    cafe.orderCoffee(latte)
+    
+    println("총 결제금액: ${cafe.calculateTotalPrice()} 원 입니다.")
+    
+}
