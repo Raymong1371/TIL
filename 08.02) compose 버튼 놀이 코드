@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -17,7 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import com.example.countup.ui.theme.CountUpTheme
 import androidx.compose.ui.unit.sp
 import java.text.SimpleDateFormat
@@ -42,77 +46,165 @@ fun ClickCounterApp() {
     val context = LocalContext.current as? Activity
     val sharedPref = context?.getPreferences(Context.MODE_PRIVATE)
     var clickCount by remember {
-        val countValue = sharedPref?.getInt("click_count", 0) ?: 0     // clickCount 변수에 쉐어드프레퍼런스 를 활용해서 값을 저장하도록 하게하는 코드
+        val countValue = sharedPref?.getInt("click_count", 0) ?: 0
         mutableStateOf(countValue)
     }
     var lastClickTime by remember {
-        val countValue = sharedPref?.getString("last_click_time", "") ?: ""    // 마찬가지로 시간을 저장하려고 만든 코드
+        val countValue = sharedPref?.getString("last_click_time", "") ?: ""
         mutableStateOf(countValue)
     }
 
     Surface(color = MaterialTheme.colorScheme.background) {
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
         Box(
-            modifier = Modifier
-                .background(Color.Green)
-                .padding(16.dp),
-            contentAlignment = Alignment.Center
-
+            modifier = Modifier.fillMaxSize()
         ) {
-            Text(
-                text = "재미있는 버튼 놀이",
-                color = Color.Black,
-                fontSize = 24.sp
-            )
-        }
+            val imageResource: Painter = painterResource(id = R.drawable.picture)
 
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            Text(
-                text = "클릭 횟수: $clickCount",
-                color = Color.Black
+            Image(
+                painter = imageResource,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                contentScale = ContentScale.FillBounds
             )
 
-            Spacer(modifier = Modifier.height(30.dp))
-            Row {
-                Button(
-                    onClick = {
-                        clickCount++
-                        sharedPref?.edit()?.putInt("click_count", clickCount)?.apply()
-                    },
-                    modifier = Modifier.padding(8.dp)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Box(
+                    modifier = Modifier
+                        .background(Color.Green)
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center
+
                 ) {
                     Text(
-                        "클릭 증가",
-                        style = MaterialTheme.typography.titleLarge.copy(color = Color.Green)
+                        text = "재미있는 버튼 놀이",
+                        color = Color.Black,
+                        fontSize = 24.sp
                     )
                 }
+
+
+                Spacer(modifier = Modifier.height(30.dp))
+                Box(
+                    modifier = Modifier
+                        .background(Color.White)
+                        .padding(9.dp)
+                ) {
+
+                Text(
+                    text = "클릭 횟수: $clickCount",
+                    color = Color.Black
+                )
+                        }
+
+                Spacer(modifier = Modifier.height(30.dp))
+                Row {
+                    Button(
+                        onClick = {
+                            clickCount++
+                            sharedPref?.edit()?.putInt("click_count", clickCount)?.apply()
+                        },
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Text(
+                            "클릭 증가",
+                            style = MaterialTheme.typography.titleLarge.copy(color = Color.Green)
+                        )
+                    }
+                    Button(
+                        onClick = {
+                            clickCount--
+                            sharedPref?.edit()?.putInt("click_count", clickCount)?.apply()
+                        },
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Text(
+                            "클릭 감소",
+                            style = MaterialTheme.typography.titleLarge.copy(color = Color.Cyan)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(30.dp))
+
+                Row {
+                    Button(
+                        onClick = {
+                            clickCount *= 2
+                            sharedPref?.edit()?.putInt("click_count", clickCount)?.apply()
+                        },
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Text(
+                            "클릭 2배",
+                            style = MaterialTheme.typography.titleLarge.copy(color = Color.Gray)
+                        )
+                    }
+                    Button(
+                        onClick = {
+                            clickCount /= 2
+                            sharedPref?.edit()?.putInt("click_count", clickCount)?.apply()
+                        },
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Text(
+                            "클릭 반으로",
+                            style = MaterialTheme.typography.titleLarge.copy(color = Color.Red)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(30.dp))
                 Button(
                     onClick = {
-                        clickCount--
+                        clickCount = 0
                         sharedPref?.edit()?.putInt("click_count", clickCount)?.apply()
-                    },
-                    modi록
+                    }
+                ) {
+                    Text(
+                        "클릭 횟수 초기화",
+                        style = MaterialTheme.typography.titleLarge.copy(color = Color.Yellow)
+                    )
                 }
-            ) {
-                Text("타임스탬프",
-                    style = MaterialTheme.typography.titleLarge.copy(color = Color.White)
-                )
+                Spacer(modifier = Modifier.height(15.dp))
+                Button(
+                    onClick = {
+                        val timeZone = TimeZone.getTimeZone("Asia/Seoul")
+                        val timeDifference = timeZone.rawOffset / (1000 * 60 * 60)
+                        val currentTime = Date().time + timeDifference * (1000 * 60 * 60)
+                        val localTime: Long =
+                            currentTime - (TimeZone.getDefault().rawOffset / 1000) + 24 * 60 * 60 * 1000
+                        lastClickTime =
+                            SimpleDateFormat(
+                                "HH:mm:ss",
+                                Locale.getDefault()
+                            ).format(Date(localTime))
+                        sharedPref?.edit()?.putString("last_click_time", lastClickTime)?.apply()
+                    }
+                ) {
+                    Text(
+                        "타임스탬프",
+                        style = MaterialTheme.typography.titleLarge.copy(color = Color.White)
+                    )
+                }
+                Spacer(modifier = Modifier.height(30.dp))
+                Box(
+                    modifier = Modifier
+                        .background(Color.White)
+                        .padding(9.dp)
+                ) {
+                    Text(
+                        text = "마지막으로 클릭한 시간:  $lastClickTime",
+                        color = Color.Black,
+                        fontSize = 18.sp
+                    )
+                }
             }
-            Spacer(modifier = Modifier.height(30.dp))
-            Text(
-                text = "마지막으로 클릭한 시간:  $lastClickTime",
-                color = Color.Black,
-                fontSize = 18.sp
-            )
         }
     }
 }
