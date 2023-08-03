@@ -1,0 +1,186 @@
+package com.example.roompractice
+
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.room.Room
+import com.example.roompractice.data.AppDatabase
+import com.example.roompractice.data.MIGRATION_1_2
+import com.example.roompractice.data.User
+import com.example.roompractice.ui.theme.RoomPracticeTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+//import kotlin.coroutines.jvm.internal.CompletedContinuation.context
+
+class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            RoomPracticeTheme {
+
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    val context = LocalContext.current
+                    val db = remember {
+                        Room.databaseBuilder(
+                            context,
+                            AppDatabase::class.java, "contacts.db"
+                        ).addMigrations(MIGRATION_1_2).build()
+                    }
+                    val scope = rememberCoroutineScope()
+
+                    var name: String by remember { mutableStateOf("") }
+                    var phone: String by remember { mutableStateOf("") }
+                    var email: String by remember { mutableStateOf("") }
+                    var age: Int by remember { mutableStateOf(0) }
+
+                    var savedName: String by remember { mutableStateOf("") }
+                    var savedPhone: String by remember { mutableStateOf("") }
+                    var savedEmail: String by remember { mutableStateOf("") }
+                    var savedAge: Int by remember { mutableStateOf(0) }
+
+
+                    TextField(
+                        value = name,
+                        onValueChange = { name = it },
+                        label = { Text("이름을 입력하세요.") }
+                    )
+
+                    TextField(
+                        value = phone,
+                        onValueChange = { phone = it },
+                        label = { Text("번호을 입력하세요.") }
+                    )
+
+                    TextField(
+                        value = email,
+                        onValueChange = { email = it },
+                        label = { Text("메일을 입력하세요.") }
+                    )
+
+                    TextField(
+                        value = age.toString(),
+                        onValueChange = { age = it.toIntOrNull() ?:0 },
+                        label = { Text("나이을 입력하세요.") },
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                    )
+
+
+
+
+                    Button(onClick = {
+                        savedName = name
+                        savedPhone = phone
+                        savedEmail = email
+                        savedAge = age
+                        val newUser = User(name = name, phone = phone, email = email, age = age)
+                        scope.launch(Dispatchers.IO) {
+                            db.userDao().insertAll(newUser)
+                        }
+
+                    }
+                    ) {
+                        Text("등록")
+                    }
+                    Text(text = savedName)
+                    Text(text = savedPhone)
+                    Text(text = savedEmail)
+                    Text(text = savedAge.toString())
+                }
+
+            }
+        }
+    }
+}
+
+
+// data 폴더안에
+
+//AppDatabase
+package com.example.roompractice.data
+
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+
+@Database(entities = [User::class], version = 2)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun userDao(): UserDAO
+}
+
+val MIGRATION_1_2 = object : Migration(1, 2) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE User ADD COLUMN phone TEXT")
+        database.execSQL("ALTER TABLE User ADD COLUMN email TEXT")
+        database.execSQL("ALTER TABLE User ADD COLUMN age INTEGER")
+    }
+}
+
+// User
+package com.example.roompractice.data
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class User(
+    @PrimaryKey(autoGenerate = true) val uid: Int = 0,
+    @ColumnInfo(name = "name")val name: String,
+    @ColumnInfo(name = "phone")val phone: String? = null,
+    @ColumnInfo(name = "email")val email: String? = null,
+    @ColumnInfo(name = "age")val age: Int? = null,
+)
+
+//UserDAO
+package com.example.roompractice.data
+
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+
+@Dao
+interface UserDAO {
+    @Query("SELECT * FROM user")
+    fun getAll(): List<User>
+
+    @Query("SELECT * FROM user WHERE uid IN (:userIds)")
+    fun loadAllByIds(userIds: IntArray): List<User>
+
+    @Query("SELECT * FROM user WHERE name LIKE :name  LIMIT 1")
+    fun findByName(name: String): User
+
+    @Insert
+    fun insertAll(vararg users: User)
+
+    @Delete
+    fun delete(user: User)
+}
