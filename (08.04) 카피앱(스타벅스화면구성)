@@ -1,0 +1,308 @@
+package com.example.copyapp_starbucks
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.copyapp_starbucks.ui.theme.CopyApp_StarbucksTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            CopyApp_StarbucksTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+
+                    val navController = rememberNavController()
+
+                    NavHost(navController, startDestination = "OrderScreen") {
+                        composable("OrderScreen") {
+                            OrderScreen(navController = navController)
+                        }
+                        composable("detailScreen"){
+                            DetailScreen()
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun OrderScreen(navController: NavController) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopAppBar(
+            title = {
+                Text(
+                    text = "추천",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentSize(Center)
+                )
+            }
+        )
+        Card(
+            modifier = Modifier
+                .width(500.dp)
+                .clickable { navController.navigate("detailScreen") },
+            shape = MaterialTheme.shapes.medium,
+
+            ) {
+            Row(modifier = Modifier.padding(8.dp)) {
+                Image(
+                    painter = painterResource(id = R.drawable.americano),
+                    contentDescription = "image",
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(CircleShape)
+                )
+                Column(modifier = Modifier.padding(8.dp)) {
+                    Text(
+                        text = "아이스 아메리카노",
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                    Text(
+                        text = "4,500원",
+                        fontWeight = FontWeight.Bold
+                    )
+
+                }
+            }
+
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Card(
+            modifier = Modifier.width(500.dp),
+            shape = MaterialTheme.shapes.medium,
+
+            ) {
+            Row(modifier = Modifier.padding(8.dp)) {
+                Image(
+                    painter = painterResource(id = R.drawable.latte),
+                    contentDescription = "image",
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(CircleShape)
+                )
+                Column(modifier = Modifier.padding(8.dp)) {
+                    Text(
+                        text = "아이스 카페 라떼",
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                    Text(
+                        text = "5,000원",
+                        fontWeight = FontWeight.Bold
+                    )
+
+                }
+            }
+
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Card(
+            modifier = Modifier.width(500.dp),
+            shape = MaterialTheme.shapes.medium,
+
+            ) {
+            Row(modifier = Modifier.padding(8.dp)) {
+                Image(
+                    painter = painterResource(id = R.drawable.caramel),
+                    contentDescription = "image",
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(CircleShape)
+                )
+                Column(modifier = Modifier.padding(8.dp)) {
+                    Text(
+                        text = "씨솔트 카라멜 콜드 브루",
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                    Text(
+                        text = "6,300원",
+                        fontWeight = FontWeight.Bold
+                    )
+
+                }
+            }
+
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Card(                                            //함수 하나 변수 4개
+            modifier = Modifier.width(500.dp),
+            shape = MaterialTheme.shapes.medium,
+
+            ) {
+            Row(modifier = Modifier.padding(8.dp)) {
+                Image(
+                    painter = painterResource(id = R.drawable.jamong),
+                    contentDescription = "image",
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(CircleShape)
+                )
+                Column(modifier = Modifier.padding(8.dp)) {
+                    Text(
+                        text = "아이스 자몽 허니 블랙 티",
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                    Text(
+                        text = "5,700원",
+                        fontWeight = FontWeight.Bold
+                    )
+
+                }
+            }
+
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Card(
+            modifier = Modifier.width(500.dp),
+            shape = MaterialTheme.shapes.medium,
+
+            ) {
+            Row(modifier = Modifier.padding(8.dp)) {
+                Image(
+                    painter = painterResource(id = R.drawable.coldbrew),
+                    contentDescription = "image",
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(CircleShape)
+                )
+                Column(modifier = Modifier.padding(8.dp)) {
+                    Text(
+                        text = "콜드 브루",
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                    Text(
+                        text = "6,900원",
+                        fontWeight = FontWeight.Bold
+                    )
+
+                }
+            }
+
+        }
+
+
+    }
+}
+
+@Composable
+fun DetailScreen() {
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .background(Color.White)
+            .fillMaxSize()
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.coffee),
+            contentDescription = "Detail image",
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp)
+        )
+        Text(
+            text = "아이스 카페 아메리카노",
+            fontWeight = FontWeight.Bold,
+            fontSize = 25.sp
+        )
+        Spacer(modifier = Modifier.height(15.dp))
+        Text(
+            text = "진한 에스프레소에 시원한 정수물과 얼음을 더하여 스타벅스의 깔끔하고 강렬한 에스프레소를 가장 부드럽고 시원하게 즐길 수 있는 커피"
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "4,500원",
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp
+        )
+        Row {
+            Button(
+                onClick = { /*TODO*/ },
+                modifier = Modifier
+                    .padding(16.dp)
+            ) {
+                Text(text = "HOT")
+            }
+            Button(
+                onClick = { /*TODO*/ },
+                modifier = Modifier
+                    .padding(16.dp)
+            ) {
+                Text(text = "ICED")
+            }
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+
+        ) {
+            Text(
+                text = "주문하기",
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    CopyApp_StarbucksTheme {
+//        OrderScreen()
+        DetailScreen()
+    }
+}
