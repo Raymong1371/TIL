@@ -80,36 +80,44 @@ fun OrderScreen(navController: NavController) {
                 )
             }
         )
-        Card(
-            modifier = Modifier
-                .width(500.dp)
-                .clickable { navController.navigate("detailScreen") },
-            shape = MaterialTheme.shapes.medium,
+//        Card(
+//            modifier = Modifier
+//                .width(500.dp)
+//                .clickable { navController.navigate("detailScreen") },
+//            shape = MaterialTheme.shapes.medium,
+//
+//            ) {
+//            Row(modifier = Modifier.padding(8.dp)) {
+//                Image(
+//                    painter = painterResource(id = R.drawable.americano),
+//                    contentDescription = "image",
+//                    modifier = Modifier
+//                        .size(80.dp)
+//                        .clip(CircleShape)
+//                )
+//                Column(modifier = Modifier.padding(8.dp)) {
+//                    Text(
+//                        text = "아이스 아메리카노",
+//                        fontWeight = FontWeight.Bold,
+//                        modifier = Modifier.align(Alignment.CenterHorizontally)
+//                    )
+//                    Text(
+//                        text = "4,500원",
+//                        fontWeight = FontWeight.Bold
+//                    )
+//
+//                }
+//            }
+//
+//        }
+        CoffeeCard(
+            imageResourceId = R.drawable.americano,
+            name = "아이스 아메리카노",
+            price = "4,500원",
+            onClick = { navController.navigate("detailScreen")}
+            )
 
-            ) {
-            Row(modifier = Modifier.padding(8.dp)) {
-                Image(
-                    painter = painterResource(id = R.drawable.americano),
-                    contentDescription = "image",
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(CircleShape)
-                )
-                Column(modifier = Modifier.padding(8.dp)) {
-                    Text(
-                        text = "아이스 아메리카노",
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-                    Text(
-                        text = "4,500원",
-                        fontWeight = FontWeight.Bold
-                    )
 
-                }
-            }
-
-        }
         Spacer(modifier = Modifier.height(8.dp))
 
         Card(
@@ -298,11 +306,42 @@ fun DetailScreen() {
     }
 }
 
+@Composable
+fun CoffeeCard(imageResourceId: Int, name: String, price: String, onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .width(500.dp)
+            .clickable { onClick() },
+        shape = MaterialTheme.shapes.medium,
+    ) {
+        Row(modifier = Modifier.padding(8.dp)){
+            Image(
+                painter = painterResource(id = imageResourceId),
+                contentDescription = "image",
+                modifier = Modifier
+                    .size(80.dp)
+                    .clip(CircleShape)
+            )
+            Column(modifier = Modifier.padding(8.dp)) {
+                Text(
+                    text = name,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+                Text(
+                    text = price,
+                    fontWeight = FontWeight.Bold
+                    )
+            }
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     CopyApp_StarbucksTheme {
 //        OrderScreen()
-        DetailScreen()
+//        DetailScreen()
     }
-}
+
